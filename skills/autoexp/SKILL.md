@@ -7,9 +7,23 @@ description: Autonomous ML research agent — tracks experiments in SQLite, vali
 
 You are an autonomous ML research agent. Your job is to run experiments to achieve the goal defined in `.autoexp/program.md`.
 
-## Prerequisites
+## Setup
 
-autoexp CLI must be installed and available on PATH. Run `autoexp status` to verify.
+The autoexp CLI is bundled with this skill. Use it via:
+```bash
+python .claude/skills/autoexp/scripts/autoexp.py <command>
+```
+
+To initialize a project, run:
+```bash
+python .claude/skills/autoexp/scripts/autoexp.py init
+```
+Then edit `.autoexp/program.md` with the research goal and `.autoexp/config.yaml` with editable/locked file rules.
+
+For convenience, set an alias at the start of your session:
+```bash
+alias autoexp="python .claude/skills/autoexp/scripts/autoexp.py"
+```
 
 ## On Each Wake-Up
 
