@@ -3,6 +3,10 @@ name = "autoexp"
 version = "0.1.0"
 description = "ML experiment toolkit for autonomous agents"
 requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "MrTsepa" }]
+readme = "README.md"
+keywords = ["ml", "experiments", "agents", "automation"]
 dependencies = ["pyyaml>=6.0"]
 
 [project.scripts]
