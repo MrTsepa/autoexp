@@ -6,6 +6,45 @@ autoexp gives any AI agent (Claude Code, OpenClaw, Aider, or a simple script) th
 
 The agent does the thinking. autoexp does the bookkeeping.
 
+Single Python file. Zero dependencies. Install as a skill and go.
+
+## Install
+
+```bash
+npx skills add MrTsepa/autoexp
+```
+
+That's it. The CLI is bundled in the skill at `.claude/skills/autoexp/scripts/autoexp.py`.
+
+## Quick Start
+
+```bash
+# In your ML project
+python .claude/skills/autoexp/scripts/autoexp.py init
+
+# Edit the research goal
+vim .autoexp/program.md
+
+# Edit what files the agent can/can't touch
+vim .autoexp/config.yaml
+```
+
+### Autonomous Mode (Claude Code)
+
+```bash
+/loop 30m /autoexp
+```
+
+Claude Code wakes up every 30 minutes, checks state, decides what to do, runs an experiment, evaluates, and goes back to sleep.
+
+### With Any Agent
+
+Any agent that can run bash commands can drive autoexp. The CLI outputs JSON with `--json` for machine consumption:
+
+```bash
+python .claude/skills/autoexp/scripts/autoexp.py results --json
+```
+
 ## How It Works
 
 ```
@@ -22,58 +61,6 @@ Agent (Claude Code, OpenClaw, etc.)
 ```
 
 Each experiment is a git commit. Results live in SQLite, not text files. The agent queries real data, not its own prose.
-
-## Install
-
-```bash
-# From source
-git clone https://github.com/MrTsepa/autoexp.git
-cd autoexp
-uv sync
-
-# Or pip
-pip install -e .
-```
-
-## Quick Start
-
-```bash
-# In your ML project
-cd my-ml-project
-autoexp init
-
-# Edit the research goal
-vim .autoexp/program.md
-
-# Edit what files the agent can/can't touch
-vim .autoexp/config.yaml
-```
-
-### With Claude Code
-
-Install the skill, then:
-
-```bash
-/loop 30m /autoexp
-```
-
-Claude Code wakes up every 30 minutes, checks state, decides what to do, runs an experiment, evaluates, and goes back to sleep.
-
-### With Any Agent
-
-Any agent that can run bash commands can drive autoexp. The CLI outputs JSON with `--json` for machine consumption.
-
-### Manual
-
-```bash
-# Make a change, then:
-autoexp validate train.py configs/new.yaml
-autoexp commit "add attention to policy network"
-autoexp train "uv run python train.py --config configs/new.yaml" --timeout 1h
-autoexp eval "uv run python eval.py --checkpoint runs/latest/best"
-autoexp results --best win_rate
-autoexp report > RESEARCH.md
-```
 
 ## Commands
 
@@ -115,19 +102,10 @@ abort_rules:
 ## Design Principles
 
 - **Git is the experiment tracker.** Each experiment = a commit. Reproducible by checkout + rerun.
-- **SQLite is the source of truth.** Metrics are numbers in a database, not claims in a text file. Agents query real data.
-- **Agent-agnostic.** Works with Claude Code, OpenClaw, Aider, or a bash script. No vendor lock-in.
-- **Validation before execution.** Locked files can't be touched. Syntax is checked. Bad code doesn't get committed.
+- **SQLite is the source of truth.** Metrics are numbers in a database, not claims in a text file.
+- **Agent-agnostic.** Works with Claude Code, OpenClaw, Aider, or a bash script.
+- **Zero dependencies.** Single Python file, stdlib only.
 - **Zero opinion on your ML stack.** Runs any command. Parses `key: value` or `key=value` from stdout for metrics.
-
-## Project Structure
-
-```
-.autoexp/
-├── config.yaml       # what's editable, what's locked, abort rules
-├── program.md        # research goal (read by the agent)
-└── experiments.db    # SQLite database (source of truth)
-```
 
 ## License
 
