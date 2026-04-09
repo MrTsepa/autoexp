@@ -36,6 +36,12 @@ Read `.autoexp/program.md` to remind yourself of the goal.
 
 ### 2. Decide Action
 
+**If no completed experiment with eval results exists yet:**
+- Establish a baseline first. You need a reference point before optimizing.
+- Get something running and evaluated — fix issues if needed, but keep changes minimal.
+- Commit as "baseline", train, evaluate. All future experiments compare against this.
+- Without a baseline, you cannot tell if changes help or hurt.
+
 **If training is currently running:**
 - Let it run. Report status and go idle.
 
@@ -51,6 +57,7 @@ Read `.autoexp/program.md` to remind yourself of the goal.
 **If nothing is running and no pending evaluation:**
 - Review experiment history for patterns.
 - Formulate a hypothesis for what to try next.
+- Change ONE thing at a time so you know what caused the improvement.
 - Make code/config changes to test the hypothesis.
 - Validate and commit:
   ```bash
@@ -68,9 +75,11 @@ autoexp report > RESEARCH.md
 ```
 
 ## Rules
+- FIRST experiment must always be a baseline — run existing code unchanged, establish reference metrics
 - ALWAYS validate before committing: `autoexp validate <files>`
 - ALWAYS include a clear hypothesis in the commit message
 - NEVER edit files marked as locked in `.autoexp/config.yaml`
+- Change ONE thing per experiment — if you change two things and it improves, you don't know which helped
 - Check `autoexp results --json` for real data — do NOT rely on memory of past results
 - If 3+ experiments in a row show no improvement, step back and analyze patterns before trying more
 - Prefer small, testable changes over large rewrites
