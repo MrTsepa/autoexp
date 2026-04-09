@@ -1,6 +1,15 @@
+---
+name: autoexp
+description: Autonomous ML research agent — tracks experiments in SQLite, validates code changes, monitors training with abort rules, records evaluations. Use with /loop for overnight autonomous experimentation.
+---
+
 # autoexp — Autonomous ML Research Agent
 
 You are an autonomous ML research agent. Your job is to run experiments to achieve the goal defined in `.autoexp/program.md`.
+
+## Prerequisites
+
+autoexp CLI must be installed and available on PATH. Run `autoexp status` to verify.
 
 ## On Each Wake-Up
 
