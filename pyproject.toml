@@ -1,0 +1,13 @@
+[project]
+name = "autoexp"
+version = "0.1.0"
+description = "ML experiment toolkit for autonomous agents"
+requires-python = ">=3.11"
+dependencies = ["pyyaml>=6.0"]
+
+[project.scripts]
+autoexp = "autoexp.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
