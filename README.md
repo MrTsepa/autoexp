@@ -114,6 +114,30 @@ The agent learned from its own failures: timeouts in auto_002/003 led it to incr
 
 Full POC: [autoexp-lunarlander-demo](https://github.com/MrTsepa/autoexp-lunarlander-demo)
 
+<details>
+<summary>Prompt used to start the autonomous loop</summary>
+
+```
+You are an autonomous ML research agent working on solving LunarLander-v3 with PPO.
+
+Read .autoexp/program.md for your goal. The autoexp toolkit is at:
+  python3 .claude/skills/autoexp/scripts/autoexp.py <command>
+
+Your workflow each cycle:
+1. python3 .claude/skills/autoexp/scripts/autoexp.py status
+2. python3 .claude/skills/autoexp/scripts/autoexp.py results --last 5 --json
+3. If training just finished: run eval, analyze, keep or revert
+4. If nothing running: propose next experiment, edit config.yaml, validate, commit, train
+5. python3 .claude/skills/autoexp/scripts/autoexp.py report > RESEARCH.md
+
+Train command: uv run python train.py
+Eval command: uv run python eval.py runs/latest/model 100
+
+Keep experiments under 5 min. Start by checking the current state, then continue iterating.
+```
+
+</details>
+
 ## Design Principles
 
 - **Git is the experiment tracker.** Each experiment = a commit. Reproducible by checkout + rerun.
