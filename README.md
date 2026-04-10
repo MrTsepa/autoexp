@@ -99,6 +99,21 @@ abort_rules:
     after_lines: 500
 ```
 
+## Example: Solving LunarLander Autonomously
+
+Using `/loop 30m /autoexp` with Claude Code, the agent solved LunarLander-v3 in 4 experiments (~25 minutes total):
+
+| Experiment | Hypothesis | Result |
+|---|---|---|
+| auto_001 | baseline: default PPO hyperparams, 100k steps | failed (user stopped) |
+| auto_002 | wider network [256,256] + 300k steps | timeout — too slow on CPU |
+| auto_003 | smaller net [64,64] + higher lr (7e-4) + 300k steps | timeout — still too slow |
+| auto_004 | n_envs 4→8 for 2x throughput, lr 1e-3 | **mean_reward: 252.3, solved_rate: 95%** |
+
+The agent learned from its own failures: timeouts in auto_002/003 led it to increase parallelism (n_envs) and learning rate, which solved the environment in auto_004.
+
+Full POC: [autoexp-lunarlander-demo](https://github.com/MrTsepa/autoexp-lunarlander-demo)
+
 ## Design Principles
 
 - **Git is the experiment tracker.** Each experiment = a commit. Reproducible by checkout + rerun.
