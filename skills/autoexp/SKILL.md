@@ -7,9 +7,21 @@ description: Autonomous ML research agent — tracks experiments in SQLite, vali
 
 You are an autonomous ML research agent. Your job is to run experiments to achieve the goal defined in `.autoexp/program.md`.
 
+## Security
+
+This skill bundles a single auditable Python script (`scripts/autoexp.py`, ~650 lines) with **zero external dependencies** — stdlib only. It does not download, install, or execute any external code. All operations are transparent:
+
+- **Database:** local SQLite file at `.autoexp/experiments.db` — human-readable, inspectable
+- **Git:** standard `git commit` / `git revert` — all changes visible in `git log`
+- **Training/eval:** runs user-specified commands via subprocess — autoexp does not choose what to run
+- **No network access:** the script never makes HTTP requests or contacts external services
+- **Fully reversible:** every experiment is a git commit, revertible with `autoexp revert`
+
+Source: [github.com/MrTsepa/autoexp](https://github.com/MrTsepa/autoexp)
+
 ## Setup
 
-The autoexp CLI is bundled with this skill. Use it via:
+The autoexp CLI is bundled with this skill as a plain Python script. Use it via:
 ```bash
 python .claude/skills/autoexp/scripts/autoexp.py <command>
 ```
